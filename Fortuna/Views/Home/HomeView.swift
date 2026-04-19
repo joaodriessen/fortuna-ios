@@ -1,11 +1,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var displayedCharacters: [Character] = []
-    @State private var animationTimer: Timer? = nil
-    @State private var currentMessageIndex = 0
-    @State private var isAnimatingMessage = false
-
     private let messages: [String] = [
         "The cosmos align in your favour today. An unexpected connection carries the energy of transformation. Trust the pull of intuition over logic — the stars speak through feeling, not reason. Your light is visible from galaxies far away.",
         "Mercury dances with Venus at dawn, stirring the winds of communication. Words left unspoken carry more weight today than those said aloud. The moon whispers: patience is not passivity — it is trust in divine timing.",
@@ -45,9 +40,9 @@ struct HomeView: View {
     }
 
     private var dateString: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM d"
-        return formatter.string(from: Date())
+        let f = DateFormatter()
+        f.dateFormat = "EEEE, MMMM d"
+        return f.string(from: Date())
     }
 
     var body: some View {
@@ -55,77 +50,75 @@ struct HomeView: View {
             CosmicBackground()
 
             ScrollView {
-                VStack(spacing: 28) {
-                    // Header
-                    VStack(spacing: 8) {
-                        Text("FORTUNA")
-                            .font(.system(size: 42, weight: .thin, design: .serif))
-                            .tracking(12)
-                            .foregroundStyle(.celestialGold)
-                            .shimmer()
+                VStack(alignment: .leading, spacing: 0) {
+                    // Date header
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        Text(dateString.uppercased())
+                            .font(FortunaFont.caption(11))
+                            .foregroundStyle(Color.textTertiary)
+                            .tracking(2)
 
-                        Text(dateString)
-                            .font(.system(size: 14, weight: .light, design: .serif))
-                            .foregroundStyle(.starWhite.opacity(0.7))
-                            .tracking(3)
+                        Text("Fortuna")
+                            .font(FortunaFont.display(36))
+                            .foregroundStyle(Color.textPrimary)
                     }
-                    .padding(.top, 60)
+                    .padding(.top, 64)
+                    .padding(.horizontal, Spacing.screenHorizontal)
+                    .padding(.bottom, Spacing.xl)
 
-                    // Golden divider
-                    HStack {
-                        Rectangle()
-                            .fill(LinearGradient(colors: [.clear, .celestialGold.opacity(0.6), .clear],
-                                                startPoint: .leading, endPoint: .trailing))
-                            .frame(height: 1)
-                    }
-                    .padding(.horizontal, 40)
-
-                    // Daily message card
-                    GlassCard {
-                        VStack(alignment: .leading, spacing: 16) {
-                            HStack {
+                    // Hero daily message card
+                    FortunaCard(padding: Spacing.lg) {
+                        VStack(alignment: .leading, spacing: Spacing.md) {
+                            HStack(spacing: Spacing.xs) {
                                 Image(systemName: "sparkles")
-                                    .foregroundStyle(.celestialGold)
-                                Text("Today's Cosmic Message")
-                                    .font(.caption)
-                                    .foregroundStyle(.celestialGold)
-                                    .tracking(2)
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Color.accentGold)
+                                Text("Today's Message")
+                                    .font(FortunaFont.caption(11))
+                                    .foregroundStyle(Color.accentGold)
+                                    .tracking(1.5)
                                 Spacer()
                             }
 
-                            TypewriterText(text: todayMessage)
-                                .font(.system(size: 16, weight: .light, design: .serif))
-                                .foregroundStyle(.starWhite.opacity(0.9))
+                            Text(todayMessage)
+                                .font(FortunaFont.body(15))
+                                .foregroundStyle(Color.textSecondary)
                                 .lineSpacing(6)
-                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
-                        .padding(24)
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, Spacing.screenHorizontal)
+                    .padding(.bottom, Spacing.lg)
 
-                    // Tagline
-                    Text("Your cosmic guide for the journey ahead")
-                        .font(.system(size: 12, weight: .light))
-                        .foregroundStyle(.starWhite.opacity(0.5))
-                        .tracking(2)
-                        .italic()
+                    // Category cards
+                    VStack(spacing: Spacing.sm) {
+                        Text("Explore")
+                            .font(FortunaFont.caption(11))
+                            .foregroundStyle(Color.textTertiary)
+                            .tracking(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, Spacing.screenHorizontal)
 
-                    // Category quick access
-                    VStack(spacing: 12) {
-                        Text("EXPLORE")
-                            .font(.caption)
-                            .foregroundStyle(.celestialGold.opacity(0.7))
-                            .tracking(4)
-
-                        HStack(spacing: 12) {
-                            CategoryPill(icon: "rectangle.stack.fill", label: "Tarot", color: .nebulaGlow)
-                            CategoryPill(icon: "moon.stars.fill", label: "Astrology", color: .cosmicBlue)
-                            CategoryPill(icon: "yin.yang", label: "Saju", color: .auroraGreen)
-                        }
-                        .padding(.horizontal, 20)
+                        HomeFeatureCard(
+                            icon: "rectangle.stack",
+                            title: "Tarot",
+                            subtitle: "Daily, monthly, and yearly spreads",
+                            tint: Color.tarotTint
+                        )
+                        HomeFeatureCard(
+                            icon: "moon.stars",
+                            title: "Astrology",
+                            subtitle: "Your natal chart and transits",
+                            tint: Color.astrologyTint
+                        )
+                        HomeFeatureCard(
+                            icon: "seal",
+                            title: "사주 · Four Pillars",
+                            subtitle: "Destiny encoded in your birth moment",
+                            tint: Color.sajuTint
+                        )
                     }
-
-                    Spacer(minLength: 100)
+                    .padding(.bottom, 120)
                 }
             }
         }
@@ -133,65 +126,39 @@ struct HomeView: View {
     }
 }
 
-struct CategoryPill: View {
+// MARK: - Feature Card
+
+struct HomeFeatureCard: View {
     let icon: String
-    let label: String
-    let color: Color
-    @State private var isPressed = false
+    let title: String
+    let subtitle: String
+    let tint: Color
 
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundStyle(color)
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(.starWhite.opacity(0.8))
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background {
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(color.opacity(0.4), lineWidth: 1)
+        FortunaCard(padding: Spacing.md, tint: tint) {
+            HStack(spacing: Spacing.md) {
+                Image(systemName: icon)
+                    .font(.system(size: 20, weight: .light))
+                    .foregroundStyle(tint)
+                    .frame(width: 36)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(FortunaFont.displayMedium(15))
+                        .foregroundStyle(Color.textPrimary)
+                    Text(subtitle)
+                        .font(FortunaFont.caption(12))
+                        .foregroundStyle(Color.textSecondary)
                 }
-        }
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .shadow(color: color.opacity(isPressed ? 0.5 : 0.2), radius: isPressed ? 12 : 6)
-        .animation(.spring(response: 0.3), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity,
-                            pressing: { pressing in isPressed = pressing },
-                            perform: {})
-    }
-}
 
-struct TypewriterText: View {
-    let text: String
-    @State private var displayedText = ""
-    @State private var charIndex = 0
+                Spacer()
 
-    var body: some View {
-        Text(displayedText)
-            .onAppear {
-                displayedText = ""
-                charIndex = 0
-                animateText()
-            }
-    }
-
-    private func animateText() {
-        guard charIndex < text.count else { return }
-        let chars = Array(text)
-        Timer.scheduledTimer(withTimeInterval: 0.025, repeats: true) { timer in
-            if charIndex < chars.count {
-                displayedText.append(chars[charIndex])
-                charIndex += 1
-            } else {
-                timer.invalidate()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .light))
+                    .foregroundStyle(Color.textTertiary)
             }
         }
+        .padding(.horizontal, Spacing.screenHorizontal)
     }
 }
 

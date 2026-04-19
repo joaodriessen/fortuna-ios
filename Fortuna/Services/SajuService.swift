@@ -4,11 +4,14 @@ class SajuService {
     static let shared = SajuService()
     private init() {}
 
-    // MARK: - Pillar Calculations
+    // MARK: - Year Pillar
+    // Ipchun correction: if birthday is before Ipchun (~Feb 4), use previous year.
 
-    static func yearPillar(year: Int) -> SajuPillar {
-        let offset = year - 4
-        let stemIdx = ((offset % 10) + 10) % 10
+    static func yearPillar(year: Int, month: Int, day: Int) -> SajuPillar {
+        var y = year
+        if month == 1 || (month == 2 && day < 4) { y -= 1 }
+        let offset = y - 4
+        let stemIdx  = ((offset % 10) + 10) % 10
         let branchIdx = ((offset % 12) + 12) % 12
         return SajuPillar(
             stem: HeavenlyStem(rawValue: stemIdx)!,
@@ -16,58 +19,107 @@ class SajuService {
         )
     }
 
-    static func monthPillar(month: Int, yearStemIdx: Int) -> SajuPillar {
-        // Month branch: month 1=Ox(1), 2=Tiger(2), etc. offset by 2
-        let branchIdx = (month + 1) % 12
-        // Month stem formula: year_stem_group * 2 + month index
-        let stemGroupBase = (yearStemIdx % 5) * 2
-        let stemIdx = (stemGroupBase + month - 1) % 10
-        return SajuPillar(
-            stem: HeavenlyStem(rawValue: stemIdx)!,
-            branch: EarthlyBranch(rawValue: branchIdx)!
-        )
+    // MARK: - Month Branch (solar-term based)
+    // Solar terms (Jieqi): approximate day the month branch changes.
+    // Branch 2 (寅) starts ~Feb 4, 3 (卯) ~Mar 6, … 1 (丑) ~Jan 6, 0 (子) ~Dec 7.
+
+    static func monthBranchIndex(month: Int, day: Int) -> Int {
+        // solTerm[m-1] = day of month when the month branch increments
+        let solTerm = [6, 4, 6, 5, 6, 6, 7, 8, 8, 8, 7, 7]
+        // Branch starts at 寅(2) for the Ipchun month (Feb)
+        // Month branch index = (month - 2 + 12) % 12, adjusted if day < solar-term day
+        let base = (month + 10) % 12   // month 1→11,2→0,3→1,…12→10, gives 寅(2) for Feb:  (2+10)%12=0? No.
+        // Simpler: branch for calendar month m (if day >= solTerm) else branch for m-1
+        // Mapping: branch 2=Jan→寅? No. Standard mapping:
+        //   寅(2) starts Feb ~4, 卯(3) Mar ~6, 辰(4) Apr ~5, 巳(5) May ~6,
+        //   午(6) Jun ~6, 未(7) Jul ~7, 申(8) Aug ~8, 酉(9) Sep ~8, 戌(10) Oct ~8,
+        //   亥(11) Nov ~7, 子(0) Dec ~7, 丑(1) Jan ~6
+        // So: branchForMonth[month-1] = branch when day >= solTerm
+        let branchForMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  // Jan=丑(1)…Dec=子(0)
+        let prevBranch = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]       // previous branch
+
+        let idx = month - 1
+        if day >= solTerm[idx] {
+            return branchForMonth[idx]
+        } else {
+            return prevBranch[idx]
+        }
+    }
+
+    // MARK: - Month Stem
+
+    static func monthStemIndex(yearStemIdx: Int, monthBranchIdx: Int) -> Int {
+        // Base stem for month starting at 寅(branch 2) depends on year stem group
+        // Year stem 甲(0)/己(5) → 寅month stem = 丙(2)
+        // Year stem 乙(1)/庚(6) → 寅month stem = 戊(4)
+        // Year stem 丙(2)/辛(7) → 寅month stem = 庚(6)
+        // Year stem 丁(3)/壬(8) → 寅month stem = 壬(8)
+        // Year stem 戊(4)/癸(9) → 寅month stem = 甲(0)
+        let bases = [2, 4, 6, 8, 0, 2, 4, 6, 8, 0]
+        let base = bases[yearStemIdx]
+        // From 寅(2), each branch step adds 1 stem: offset = (branchIdx - 2 + 12) % 12
+        let offset = (monthBranchIdx - 2 + 12) % 12
+        return (base + offset) % 10
+    }
+
+    // MARK: - Day Pillar (Julian Day Number)
+
+    static func julianDayNumber(year: Int, month: Int, day: Int) -> Int {
+        let a = (14 - month) / 12
+        let y = year + 4800 - a
+        let m = month + 12 * a - 3
+        return day + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045
     }
 
     static func dayPillar(date: Date) -> SajuPillar {
-        let calendar = Calendar.current
-        let y = calendar.component(.year, from: date)
-        let m = calendar.component(.month, from: date)
-        let d = calendar.component(.day, from: date)
+        let cal = Calendar.current
+        let y = cal.component(.year, from: date)
+        let m = cal.component(.month, from: date)
+        let d = cal.component(.day, from: date)
 
-        // Julian Day Number
-        let a = (14 - m) / 12
-        let y2 = y + 4800 - a
-        let m2 = m + 12 * a - 3
-        let jdn = d + (153 * m2 + 2) / 5 + 365 * y2 + y2 / 4 - y2 / 100 + y2 / 400 - 32045
-
-        // Reference: JDN 2299160 was a 갑자 (Gab-Ja) day
-        let dayOffset = jdn - 2299160
-        let stemIdx = ((dayOffset % 10) + 10) % 10
-        let branchIdx = ((dayOffset % 12) + 12) % 12
+        let jdn = julianDayNumber(year: y, month: m, day: d)
+        // Reference: JDN 2451545 = Jan 1 2000 = 庚辰 (stem 6, branch 4)
+        // Offset chosen so that (jdn - 2451545 + 16) % 60 = 0 gives 甲子(0,0)
+        // dayPos 0 = 甲子, so stemIdx = dayPos % 10, branchIdx = dayPos % 12
+        let dayPos = ((jdn - 2451545 + 16) % 60 + 60) % 60
+        let stemIdx = dayPos % 10
+        let branchIdx = dayPos % 12
         return SajuPillar(
             stem: HeavenlyStem(rawValue: stemIdx)!,
             branch: EarthlyBranch(rawValue: branchIdx)!
         )
+    }
+
+    // MARK: - Hour Pillar
+
+    static func hourBranchIndex(hour: Int) -> Int {
+        if hour == 23 { return 0 }
+        return (hour + 1) / 2
     }
 
     static func hourPillar(hour: Int, dayStemIdx: Int) -> SajuPillar {
-        // 12 two-hour periods: 23-1=Rat(0), 1-3=Ox(1), etc.
-        let branchIdx = ((hour + 1) / 2) % 12
-        let stemGroupBase = (dayStemIdx % 5) * 2
-        let stemIdx = (stemGroupBase + branchIdx) % 10
+        let branchIdx = hourBranchIndex(hour: hour)
+        let base = (dayStemIdx % 5) * 2
+        let stemIdx = (base + branchIdx) % 10
         return SajuPillar(
             stem: HeavenlyStem(rawValue: stemIdx)!,
             branch: EarthlyBranch(rawValue: branchIdx)!
         )
     }
 
-    static func chart(birthDate: Date, birthHour: Int) -> SajuChart {
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: birthDate)
-        let month = calendar.component(.month, from: birthDate)
+    // MARK: - Full Chart
 
-        let yp = yearPillar(year: year)
-        let mp = monthPillar(month: month, yearStemIdx: yp.stem.rawValue)
+    static func chart(birthDate: Date, birthHour: Int) -> SajuChart {
+        let cal = Calendar.current
+        let year  = cal.component(.year, from: birthDate)
+        let month = cal.component(.month, from: birthDate)
+        let day   = cal.component(.day, from: birthDate)
+
+        let yp = yearPillar(year: year, month: month, day: day)
+        let monthBranch = monthBranchIndex(month: month, day: day)
+        let monthStem   = monthStemIndex(yearStemIdx: yp.stem.rawValue, monthBranchIdx: monthBranch)
+        let mp = SajuPillar(stem: HeavenlyStem(rawValue: monthStem)!,
+                            branch: EarthlyBranch(rawValue: monthBranch)!)
         let dp = dayPillar(date: birthDate)
         let hp = hourPillar(hour: birthHour, dayStemIdx: dp.stem.rawValue)
 
@@ -101,9 +153,9 @@ class SajuService {
 enum SajuFortunes {
     static func fortunes(for element: FiveElement, period: FortunePeriod) -> [String] {
         switch period {
-        case .daily: return dailyFortunes(for: element)
+        case .daily:   return dailyFortunes(for: element)
         case .monthly: return monthlyFortunes(for: element)
-        case .yearly: return yearlyFortunes(for: element)
+        case .yearly:  return yearlyFortunes(for: element)
         }
     }
 

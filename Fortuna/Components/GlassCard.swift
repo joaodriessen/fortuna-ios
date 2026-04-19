@@ -1,48 +1,76 @@
 import SwiftUI
 
-struct GlassCard<Content: View>: View {
+struct FortunaCard<Content: View>: View {
+    var padding: CGFloat = Spacing.lg
+    var tint: Color = .clear
     let content: () -> Content
 
-    init(@ViewBuilder content: @escaping () -> Content) {
+    init(padding: CGFloat = Spacing.lg, tint: Color = .clear, @ViewBuilder content: @escaping () -> Content) {
+        self.padding = padding
+        self.tint = tint
         self.content = content
     }
 
     var body: some View {
         content()
+            .padding(padding)
             .background {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(Color.surfaceBase)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(LinearGradient(
-                                colors: [.white.opacity(0.15), .white.opacity(0.03)],
-                                startPoint: .topLeading, endPoint: .bottomTrailing
-                            ))
+                        if tint != .clear {
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .fill(tint.opacity(0.06))
+                        }
                     }
                     .overlay {
-                        RoundedRectangle(cornerRadius: 20)
-                            .strokeBorder(LinearGradient(
-                                colors: [.white.opacity(0.6), .white.opacity(0.1), .purple.opacity(0.3)],
-                                startPoint: .topLeading, endPoint: .bottomTrailing
-                            ), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .strokeBorder(Color.cardBorder, lineWidth: 1)
                     }
+                    .shadow(color: .black.opacity(0.35), radius: 24, x: 0, y: 8)
             }
+    }
+}
+
+// MARK: - Pulse Modifier (replaces shimmer)
+
+struct PulseModifier: ViewModifier {
+    @State private var opacity: Double = 0.4
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(opacity)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true)) {
+                    opacity = 1.0
+                }
+            }
+    }
+}
+
+extension View {
+    func pulse() -> some View {
+        modifier(PulseModifier())
+    }
+
+    // Keep shimmer as a no-op alias so old code doesn't break during migration
+    func shimmer() -> some View {
+        self
     }
 }
 
 #Preview {
     ZStack {
-        Color.cosmicBackground.ignoresSafeArea()
-        GlassCard {
+        Color.appBackground.ignoresSafeArea()
+        FortunaCard(tint: .accentPurple) {
             VStack(spacing: 12) {
-                Text("Glass Card")
-                    .font(.title2.bold())
-                    .foregroundStyle(.white)
-                Text("A beautiful glassmorphism card component.")
-                    .font(.body)
-                    .foregroundStyle(.white.opacity(0.8))
+                Text("Fortuna Card")
+                    .font(FortunaFont.displayMedium(20))
+                    .foregroundStyle(Color.textPrimary)
+                Text("A refined card component.")
+                    .font(FortunaFont.body(15))
+                    .foregroundStyle(Color.textSecondary)
             }
-            .padding(24)
         }
         .padding()
     }

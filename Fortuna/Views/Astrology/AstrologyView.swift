@@ -5,18 +5,16 @@ struct AstrologyView: View {
     @State private var selectedPeriod = 0
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                CosmicBackground()
+        ZStack {
+            CosmicBackground()
 
-                if viewModel.hasBirthDate, let sign = viewModel.userSign {
-                    AstrologyReadingView(viewModel: viewModel, sign: sign, selectedPeriod: $selectedPeriod)
-                } else {
-                    AstrologyOnboardingView(viewModel: viewModel)
-                }
+            if viewModel.hasBirthDate, let sign = viewModel.userSign {
+                AstrologyReadingView(viewModel: viewModel, sign: sign, selectedPeriod: $selectedPeriod)
+            } else {
+                AstrologyOnboardingView(viewModel: viewModel)
             }
-            .ignoresSafeArea()
         }
+        .ignoresSafeArea()
     }
 }
 
@@ -25,58 +23,53 @@ struct AstrologyView: View {
 struct AstrologyOnboardingView: View {
     @ObservedObject var viewModel: AstrologyViewModel
     @State private var birthDate = Date()
-    @State private var appeared = false
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 32) {
-                VStack(spacing: 8) {
-                    Text("ASTROLOGY")
-                        .font(.system(size: 28, weight: .thin, design: .serif))
-                        .tracking(10)
-                        .foregroundStyle(.celestialGold)
-                        .shimmer()
-                    Text("Read The Stars")
-                        .font(.system(size: 11, weight: .light))
-                        .foregroundStyle(.starWhite.opacity(0.5))
-                        .tracking(3)
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    Text("Astrology")
+                        .font(FortunaFont.display(34))
+                        .foregroundStyle(Color.textPrimary)
+                    Text("Read your celestial blueprint")
+                        .font(FortunaFont.caption(13))
+                        .foregroundStyle(Color.textTertiary)
                 }
-                .padding(.top, 70)
+                .padding(.top, 64)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
-                // Zodiac symbols decorative row
-                HStack(spacing: 16) {
+                // Decorative sign row
+                HStack(spacing: Spacing.lg) {
                     ForEach(ZodiacData.allSigns.prefix(6), id: \.name) { sign in
                         Text(sign.symbol)
-                            .font(.title3)
-                            .foregroundStyle(.starWhite.opacity(0.3))
+                            .font(.system(size: 18, weight: .ultraLight))
+                            .foregroundStyle(Color.textTertiary.opacity(0.6))
                     }
                 }
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
                 Text("The stars have been studying you\nsince the moment you arrived.")
-                    .font(.system(size: 18, weight: .light, design: .serif))
-                    .foregroundStyle(.starWhite.opacity(0.8))
-                    .multilineTextAlignment(.center)
+                    .font(FortunaFont.display(19))
+                    .foregroundStyle(Color.textSecondary)
                     .lineSpacing(6)
                     .italic()
-                    .padding(.horizontal, 40)
+                    .padding(.horizontal, Spacing.screenHorizontal)
+                    .padding(.bottom, Spacing.xxl)
 
-                Text("Enter your birth date to reveal your cosmic blueprint.")
-                    .font(.system(size: 13, weight: .light))
-                    .foregroundStyle(.starWhite.opacity(0.5))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 50)
-
-                GlassCard {
-                    VStack(spacing: 20) {
+                FortunaCard(padding: Spacing.lg, tint: Color.astrologyTint) {
+                    VStack(spacing: Spacing.lg) {
                         Text("Your Birth Date")
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(.celestialGold)
+                            .font(FortunaFont.caption(11))
+                            .foregroundStyle(Color.accentGold)
                             .tracking(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
                         DatePicker("", selection: $birthDate, displayedComponents: .date)
-                            .datePickerStyle(.wheel)
+                            .datePickerStyle(.graphical)
                             .colorScheme(.dark)
-                            .tint(.celestialGold)
+                            .tint(Color.accentGold)
                             .labelsHidden()
 
                         Button {
@@ -84,25 +77,25 @@ struct AstrologyOnboardingView: View {
                                 viewModel.setBirthDate(birthDate)
                             }
                         } label: {
-                            HStack(spacing: 8) {
+                            HStack(spacing: Spacing.xs) {
                                 Image(systemName: "sparkles")
                                 Text("Reveal My Sign")
-                                    .font(.system(size: 15, weight: .medium))
+                                    .font(FortunaFont.displayMedium(15))
                             }
-                            .foregroundStyle(.cosmicBackground)
+                            .foregroundStyle(Color.appBackground)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background {
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(.celestialGold)
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.accentGold)
                             }
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(24)
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, Spacing.screenHorizontal)
 
-                Spacer(minLength: 100)
+                Spacer(minLength: 120)
             }
         }
     }
@@ -116,119 +109,103 @@ struct AstrologyReadingView: View {
     @Binding var selectedPeriod: Int
 
     private var fortuneText: String {
-        switch selectedPeriod {
-        case 0: return viewModel.dailyFortune
-        case 1: return viewModel.monthlyFortune
-        default: return viewModel.yearlyFortune
-        }
+        [viewModel.dailyFortune, viewModel.monthlyFortune, viewModel.yearlyFortune][selectedPeriod]
     }
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(alignment: .leading, spacing: 0) {
                 // Header
-                VStack(spacing: 8) {
-                    Text("ASTROLOGY")
-                        .font(.system(size: 26, weight: .thin, design: .serif))
-                        .tracking(10)
-                        .foregroundStyle(.celestialGold)
-                        .shimmer()
-
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    Text("Astrology")
+                        .font(FortunaFont.display(34))
+                        .foregroundStyle(Color.textPrimary)
                     Text(sign.dateRange)
-                        .font(.system(size: 11, weight: .light))
-                        .foregroundStyle(.starWhite.opacity(0.5))
-                        .tracking(2)
+                        .font(FortunaFont.caption(12))
+                        .foregroundStyle(Color.textTertiary)
+                        .tracking(1)
                 }
                 .padding(.top, 64)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
-                // Zodiac wheel
+                // Wheel
                 ZodiacWheelView(userSign: sign)
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, Spacing.lg)
 
                 // Sign info card
-                GlassCard {
-                    HStack(spacing: 16) {
+                FortunaCard(padding: Spacing.md, tint: Color.astrologyTint) {
+                    HStack(spacing: Spacing.md) {
                         VStack(spacing: 4) {
                             Text(sign.symbol)
-                                .font(.system(size: 44, weight: .thin))
-                                .foregroundStyle(.celestialGold)
+                                .font(.system(size: 42, weight: .ultraLight))
+                                .foregroundStyle(Color.accentGold)
                             Text(sign.name.uppercased())
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundStyle(.celestialGold)
-                                .tracking(3)
+                                .font(FortunaFont.caption(9))
+                                .foregroundStyle(Color.accentGold)
+                                .tracking(2)
                         }
 
-                        Divider()
-                            .background(.white.opacity(0.15))
+                        Rectangle()
+                            .fill(Color.divider)
+                            .frame(width: 0.5)
+                            .padding(.vertical, 4)
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            InfoRow(label: "Element", value: "\(sign.element.emoji) \(sign.element.rawValue)")
-                            InfoRow(label: "Ruler", value: sign.rulingPlanet)
-                            InfoRow(label: "Traits", value: sign.traits.prefix(3).joined(separator: ", "))
+                        VStack(alignment: .leading, spacing: 6) {
+                            InfoRow(label: "Element", value: sign.element.rawValue)
+                            InfoRow(label: "Ruler",   value: sign.rulingPlanet)
+                            InfoRow(label: "Traits",  value: sign.traits.prefix(3).joined(separator: ", "))
                         }
 
                         Spacer()
                     }
-                    .padding(20)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.lg)
 
-                // Period selector
-                HStack(spacing: 0) {
-                    ForEach(["Daily", "Monthly", "Yearly"].indices, id: \.self) { i in
-                        Button {
-                            withAnimation(.spring(response: 0.4)) { selectedPeriod = i }
-                        } label: {
-                            Text(["Daily", "Monthly", "Yearly"][i])
-                                .font(.system(size: 13, weight: selectedPeriod == i ? .semibold : .regular))
-                                .foregroundStyle(selectedPeriod == i ? .celestialGold : .starWhite.opacity(0.5))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 10)
-                                .background {
-                                    if selectedPeriod == i {
-                                        Capsule()
-                                            .fill(.white.opacity(0.08))
-                                            .overlay(Capsule().strokeBorder(.celestialGold.opacity(0.4), lineWidth: 0.5))
-                                    }
-                                }
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
+                // Period picker
+                FortunaPicker(labels: ["Daily", "Monthly", "Yearly"], selected: $selectedPeriod)
+                    .padding(.horizontal, Spacing.screenHorizontal)
+                    .padding(.bottom, Spacing.lg)
 
                 // Fortune card
-                GlassCard {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            Image(systemName: "moon.stars.fill")
-                                .foregroundStyle(.celestialGold)
+                FortunaCard(padding: Spacing.lg, tint: Color.astrologyTint) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
+                        HStack(spacing: Spacing.xs) {
+                            Image(systemName: "moon.stars")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color.accentGold)
                             Text(["Daily Fortune", "Monthly Fortune", "Yearly Fortune"][selectedPeriod])
-                                .font(.caption)
-                                .foregroundStyle(.celestialGold)
-                                .tracking(2)
+                                .font(FortunaFont.caption(11))
+                                .foregroundStyle(Color.accentGold)
+                                .tracking(1.5)
                             Spacer()
                         }
 
                         Text(fortuneText)
-                            .font(.system(size: 15, weight: .light, design: .serif))
-                            .foregroundStyle(.starWhite.opacity(0.9))
+                            .font(FortunaFont.body(14))
+                            .foregroundStyle(Color.textSecondary)
                             .lineSpacing(6)
-                            .id(selectedPeriod) // Force redraw on tab change
+                            .fixedSize(horizontal: false, vertical: true)
+                            .id(selectedPeriod)
                     }
-                    .padding(22)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.lg)
 
-                // Change birth date
                 Button {
                     viewModel.clearBirthDate()
                 } label: {
                     Text("Change birth date")
-                        .font(.system(size: 12, weight: .light))
-                        .foregroundStyle(.starWhite.opacity(0.35))
+                        .font(FortunaFont.caption(12))
+                        .foregroundStyle(Color.textTertiary)
                         .underline()
                 }
+                .buttonStyle(.plain)
+                .padding(.horizontal, Spacing.screenHorizontal)
 
-                Spacer(minLength: 100)
+                Spacer(minLength: 120)
             }
         }
     }
@@ -239,13 +216,13 @@ struct InfoRow: View {
     let value: String
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 5) {
             Text(label + ":")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundStyle(.starWhite.opacity(0.4))
+                .font(FortunaFont.caption(10))
+                .foregroundStyle(Color.textTertiary)
             Text(value)
-                .font(.system(size: 11, weight: .regular))
-                .foregroundStyle(.starWhite.opacity(0.8))
+                .font(FortunaFont.caption(11))
+                .foregroundStyle(Color.textSecondary)
         }
     }
 }

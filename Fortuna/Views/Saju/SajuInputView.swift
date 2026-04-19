@@ -1,137 +1,174 @@
 import SwiftUI
 
+// MARK: - 시진 (Two-Hour Period) Picker
+
+struct HourPeriodPicker: View {
+    @Binding var selectedHour: Int
+
+    // 12 두-hour periods (시진) with their branch, Korean name, and a representative hour
+    private let periods: [(name: String, chinese: String, hours: ClosedRange<Int>)] = [
+        ("자시", "子", 23...23),  // 23:00-01:00 → represented as 0
+        ("축시", "丑", 1...2),
+        ("인시", "寅", 3...4),
+        ("묘시", "卯", 5...6),
+        ("진시", "辰", 7...8),
+        ("사시", "巳", 9...10),
+        ("오시", "午", 11...12),
+        ("미시", "未", 13...14),
+        ("신시", "申", 15...16),
+        ("유시", "酉", 17...18),
+        ("술시", "戌", 19...20),
+        ("해시", "亥", 21...22)
+    ]
+
+    // Representative hour for each period (used for calculation)
+    private let representativeHours = [0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21]
+
+    private func periodIndex(for hour: Int) -> Int {
+        if hour == 23 { return 0 }
+        return (hour + 1) / 2
+    }
+
+    private var selectedIdx: Int { periodIndex(for: selectedHour) }
+
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 4), spacing: 8) {
+            ForEach(periods.indices, id: \.self) { i in
+                let isSelected = selectedIdx == i
+                Button {
+                    selectedHour = representativeHours[i]
+                } label: {
+                    VStack(spacing: 3) {
+                        Text(periods[i].chinese)
+                            .font(.system(size: 18, weight: .ultraLight, design: .default))
+                            .foregroundStyle(isSelected ? Color.accentGold : Color.textSecondary)
+                        Text(periods[i].name)
+                            .font(FortunaFont.caption(9))
+                            .foregroundStyle(isSelected ? Color.accentGold : Color.textTertiary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(isSelected ? Color.accentGold.opacity(0.12) : Color.surfaceRaised)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .strokeBorder(
+                                        isSelected ? Color.accentGold.opacity(0.4) : Color.clear,
+                                        lineWidth: 0.5
+                                    )
+                            }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+}
+
+// MARK: - Saju Input View
+
 struct SajuInputView: View {
     @ObservedObject var viewModel: SajuViewModel
     @State private var birthDate = Date()
-    @State private var birthHour = 12
-
-    private let hours = Array(0..<24)
-
-    var hourLabel: String {
-        let h = birthHour
-        let suffix = h < 12 ? "AM" : "PM"
-        let display = h == 0 ? 12 : (h > 12 ? h - 12 : h)
-        return String(format: "%d:00 %@", display, suffix)
-    }
+    @State private var birthHour = 11  // Default: 오시 (midday)
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 32) {
+            VStack(alignment: .leading, spacing: 0) {
                 // Header
-                VStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text("사주팔자")
-                        .font(.system(size: 36, weight: .thin, design: .serif))
-                        .foregroundStyle(.celestialGold)
-                        .shimmer()
-                    Text("SAJU — FOUR PILLARS OF DESTINY")
-                        .font(.system(size: 10, weight: .light))
-                        .foregroundStyle(.starWhite.opacity(0.5))
-                        .tracking(3)
+                        .font(FortunaFont.display(34))
+                        .foregroundStyle(Color.textPrimary)
+                    Text("Four Pillars of Destiny")
+                        .font(FortunaFont.caption(13))
+                        .foregroundStyle(Color.textTertiary)
+                        .tracking(1)
                 }
-                .padding(.top, 70)
+                .padding(.top, 64)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
-                // Intro text
-                Text("The Four Pillars encode the cosmic configuration at the moment of your birth. Every pillar, every stem, every branch carries a reading of your path.")
-                    .font(.system(size: 14, weight: .light, design: .serif))
-                    .foregroundStyle(.starWhite.opacity(0.7))
-                    .multilineTextAlignment(.center)
+                Text("The four pillars encode the cosmic configuration at the exact moment of your birth.")
+                    .font(FortunaFont.body(15))
+                    .foregroundStyle(Color.textSecondary)
                     .lineSpacing(5)
-                    .italic()
-                    .padding(.horizontal, 40)
+                    .padding(.horizontal, Spacing.screenHorizontal)
+                    .padding(.bottom, Spacing.xl)
 
-                // Decorative characters
-                HStack(spacing: 24) {
+                // Decorative stems
+                HStack(spacing: Spacing.lg) {
                     ForEach(["甲", "乙", "丙", "丁", "戊"], id: \.self) { char in
                         Text(char)
-                            .font(.system(size: 22, weight: .thin, design: .serif))
-                            .foregroundStyle(.celestialGold.opacity(0.25))
+                            .font(.system(size: 20, weight: .ultraLight))
+                            .foregroundStyle(Color.textTertiary.opacity(0.4))
                     }
                 }
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
-                // Input form
-                GlassCard {
-                    VStack(spacing: 24) {
-                        // Birth date
-                        VStack(spacing: 8) {
-                            Text("Birth Date")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(.celestialGold)
+                // Birth date card
+                FortunaCard(padding: Spacing.lg, tint: Color.sajuTint) {
+                    VStack(alignment: .leading, spacing: Spacing.lg) {
+                        Text("Birth Date")
+                            .font(FortunaFont.caption(11))
+                            .foregroundStyle(Color.accentGold)
+                            .tracking(2)
+
+                        DatePicker("", selection: $birthDate, displayedComponents: .date)
+                            .datePickerStyle(.graphical)
+                            .colorScheme(.dark)
+                            .tint(Color.accentGold)
+                            .labelsHidden()
+                    }
+                }
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.md)
+
+                // Birth hour card
+                FortunaCard(padding: Spacing.lg, tint: Color.sajuTint) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Birth Hour · 시주")
+                                .font(FortunaFont.caption(11))
+                                .foregroundStyle(Color.accentGold)
                                 .tracking(2)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            DatePicker("", selection: $birthDate, displayedComponents: .date)
-                                .datePickerStyle(.wheel)
-                                .colorScheme(.dark)
-                                .tint(.celestialGold)
-                                .labelsHidden()
-                        }
-
-                        Divider().background(.white.opacity(0.1))
-
-                        // Birth hour
-                        VStack(spacing: 12) {
-                            Text("Birth Hour")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(.celestialGold)
-                                .tracking(2)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            Text(hourLabel)
-                                .font(.system(size: 28, weight: .thin, design: .serif))
-                                .foregroundStyle(.starWhite)
-
-                            Slider(value: Binding(
-                                get: { Double(birthHour) },
-                                set: { birthHour = Int($0) }
-                            ), in: 0...23, step: 1)
-                            .tint(.celestialGold)
-
-                            HStack {
-                                Text("Midnight")
-                                    .font(.caption2)
-                                    .foregroundStyle(.starWhite.opacity(0.3))
-                                Spacer()
-                                Text("Noon")
-                                    .font(.caption2)
-                                    .foregroundStyle(.starWhite.opacity(0.3))
-                                Spacer()
-                                Text("Midnight")
-                                    .font(.caption2)
-                                    .foregroundStyle(.starWhite.opacity(0.3))
-                            }
-
-                            Text("The hour of birth determines your Hour Pillar (시주),\nwhich governs your inner self and later years.")
-                                .font(.system(size: 10, weight: .light))
-                                .foregroundStyle(.starWhite.opacity(0.4))
-                                .multilineTextAlignment(.center)
+                            Text("Each 시진 (two-hour period) determines your Hour Pillar and governs your inner life.")
+                                .font(FortunaFont.caption(11))
+                                .foregroundStyle(Color.textTertiary)
                                 .lineSpacing(3)
                         }
 
-                        // Generate button
-                        Button {
-                            withAnimation(.spring(response: 0.5)) {
-                                viewModel.generateChart(birthDate: birthDate, birthHour: birthHour)
-                            }
-                        } label: {
-                            HStack(spacing: 8) {
-                                Image(systemName: "yin.yang")
-                                Text("Calculate My Four Pillars")
-                                    .font(.system(size: 15, weight: .medium))
-                            }
-                            .foregroundStyle(.cosmicBackground)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background {
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(.celestialGold)
-                            }
-                        }
+                        HourPeriodPicker(selectedHour: $birthHour)
                     }
-                    .padding(24)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, Spacing.screenHorizontal)
+                .padding(.bottom, Spacing.xl)
 
-                Spacer(minLength: 100)
+                // Calculate button
+                Button {
+                    withAnimation(.spring(response: 0.5)) {
+                        viewModel.generateChart(birthDate: birthDate, birthHour: birthHour)
+                    }
+                } label: {
+                    HStack(spacing: Spacing.xs) {
+                        Image(systemName: "seal")
+                        Text("Calculate My Four Pillars")
+                            .font(FortunaFont.displayMedium(15))
+                    }
+                    .foregroundStyle(Color.appBackground)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 15)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.accentGold)
+                    }
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal, Spacing.screenHorizontal)
+
+                Spacer(minLength: 120)
             }
         }
     }

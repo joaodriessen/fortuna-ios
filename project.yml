@@ -2,8 +2,8 @@ name: Fortuna
 options:
   bundleIdPrefix: com.joaodriessen
   deploymentTarget:
-    iOS: "17.0"
-  xcodeVersion: "16.0"
+    iOS: "18.0"
+  xcodeVersion: "26.0"
   createIntermediateGroups: true
 settings:
   base:
@@ -18,13 +18,16 @@ targets:
   Fortuna:
     type: application
     platform: iOS
-    deploymentTarget: "17.0"
+    deploymentTarget: "18.0"
     sources:
       - Fortuna
     settings:
       base:
-        INFOPLIST_FILE: Fortuna/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.joaodriessen.fortuna
+        GENERATE_INFOPLIST_FILE: "YES"
+        INFOPLIST_KEY_CFBundleDisplayName: Fortuna
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
     scheme:
       testTargets:
         - FortunaTests

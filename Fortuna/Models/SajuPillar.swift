@@ -17,8 +17,9 @@ enum FiveElement: String, CaseIterable {
         switch self { case .wood: return "Wood"; case .fire: return "Fire"; case .earth: return "Earth"; case .metal: return "Metal"; case .water: return "Water" }
     }
 
-    var emoji: String {
-        switch self { case .wood: return "🌳"; case .fire: return "🔥"; case .earth: return "🌍"; case .metal: return "⚔️"; case .water: return "💧" }
+    // No emoji — use Korean/Chinese names in UI
+    var symbolName: String {
+        switch self { case .wood: return "leaf.fill"; case .fire: return "flame.fill"; case .earth: return "mountain.2.fill"; case .metal: return "bolt.fill"; case .water: return "drop.fill" }
     }
 }
 
@@ -71,8 +72,13 @@ enum EarthlyBranch: Int, CaseIterable {
     var chineseName: String { ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"][rawValue] }
     var animal: String { ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"][rawValue] }
     var animalKorean: String { ["쥐", "소", "호랑이", "토끼", "용", "뱀", "말", "양", "원숭이", "닭", "개", "돼지"][rawValue] }
-    var animalEmoji: String { ["🐀", "🐂", "🐅", "🐇", "🐉", "🐍", "🐎", "🐑", "🐒", "🐓", "🐕", "🐖"][rawValue] }
-    var element: FiveElement { [.water, .earth, .wood, .wood, .earth, .fire, .fire, .earth, .metal, .metal, .earth, .water][rawValue] }
+
+    // Branch element mapping:
+    // 子(0)=Water, 丑(1)=Earth, 寅(2)=Wood, 卯(3)=Wood, 辰(4)=Earth, 巳(5)=Fire
+    // 午(6)=Fire,  未(7)=Earth, 申(8)=Metal, 酉(9)=Metal, 戌(10)=Earth, 亥(11)=Water
+    var element: FiveElement {
+        [.water, .earth, .wood, .wood, .earth, .fire, .fire, .earth, .metal, .metal, .earth, .water][rawValue]
+    }
 }
 
 // MARK: - Saju Pillar
@@ -98,17 +104,23 @@ struct SajuChart {
 
     var allPillars: [SajuPillar] { [yearPillar, monthPillar, dayPillar, hourPillar] }
 
+    // Count elements from all 8 characters (4 stems + 4 branches)
     var elementCounts: [FiveElement: Int] {
         var counts: [FiveElement: Int] = [.wood: 0, .fire: 0, .earth: 0, .metal: 0, .water: 0]
         for pillar in allPillars {
-            counts[pillar.stem.element, default: 0] += 2
+            counts[pillar.stem.element, default: 0] += 1
             counts[pillar.branch.element, default: 0] += 1
         }
         return counts
     }
 
     var dominantElement: FiveElement {
-        elementCounts.max(by: { $0.value < $1.value })?.key ?? .earth
+        var counts: [FiveElement: Int] = [.wood: 0, .fire: 0, .earth: 0, .metal: 0, .water: 0]
+        for pillar in allPillars {
+            counts[pillar.stem.element, default: 0] += 1
+            counts[pillar.branch.element, default: 0] += 1
+        }
+        return counts.max(by: { $0.value < $1.value })?.key ?? .water
     }
 
     var elementPercentages: [FiveElement: Double] {

@@ -8,10 +8,10 @@ enum CosmicElement: String, CaseIterable {
 
     var color: Color {
         switch self {
-        case .fire: return .marsRed
-        case .earth: return .auroraGreen
-        case .air: return .starWhite
-        case .water: return .cosmicBlue
+        case .fire:  return Color(hex: "C05050")
+        case .earth: return Color.sajuTint
+        case .air:   return Color.textSecondary
+        case .water: return Color.astrologyTint
         }
     }
 

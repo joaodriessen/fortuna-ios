@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03DA6C2B8E7712D6CC75728E /* TarotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6585187DCFA29BB65418B1 /* TarotView.swift */; };
+		1796A080497E3BAC62031D79 /* SajuPillar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56715A3A52D18BA86777186C /* SajuPillar.swift */; };
+		1EF2F9AEEE183DDA45476F41 /* SajuInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA9FF35AA85FEF52DE973A /* SajuInputView.swift */; };
+		20AA3966890BB5803B55DE14 /* ShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1559FEAE0C5C81E764984EB1 /* ShimmerModifier.swift */; };
+		23231FE880C809A2D133F76A /* StarfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6791D099A4380897C10BFAD1 /* StarfieldView.swift */; };
+		25D4851BF7F9360E1C72D2F6 /* FortunaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEF862D3C1DDCED19A87799 /* FortunaApp.swift */; };
+		2784AF3EFDF56E563ED7085D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7858D7EEAFA44B4F0FF94D46 /* Assets.xcassets */; };
+		291C03FB0FCA174B32EC9C57 /* TarotCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5103009C9C2D0BCF2A3717 /* TarotCardView.swift */; };
+		3A920E9813EB78C6001E87F7 /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7652FFE417C5B49919EC9C /* GlassCard.swift */; };
+		3ED000D761BC2144B5DE6260 /* TarotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1792720453BAF4115958C4 /* TarotService.swift */; };
+		422FA7A43BB886F7334ECA08 /* FortunaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB323EF14372D16E76D81B9 /* FortunaTests.swift */; };
+		4CDE411EDFA90AF6D12249EA /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = A227091663BEB31047A4EADA /* ZodiacSign.swift */; };
+		52CFAA8A62F3578A4923845D /* SajuService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C677F1A480A677616E6551B /* SajuService.swift */; };
+		60173F204F967BCCE745C9A1 /* CosmicBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408923B58ED872EB2A3D35C1 /* CosmicBackground.swift */; };
+		6332F027CAB4569116015A36 /* AstrologyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6602C24FAAA9D806C262E3 /* AstrologyService.swift */; };
+		6E4E951A17F1B327AEBD2B68 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE9096D7B4FC2D62858D6F8 /* ContentView.swift */; };
+		74E6815B674B08DF8A58AD9C /* SajuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7C630E1AD6C3029149C3D5 /* SajuView.swift */; };
+		79C5E2800BF7D5D0873A72D6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255F6C36B0190CE8037B8D1 /* HomeView.swift */; };
+		7D7094CA409615C40464B121 /* AstrologyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B598E32123431ADFCA8C57 /* AstrologyView.swift */; };
+		7FC84AF1CB16B4475B31E201 /* SajuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3251C211E49011322A6B /* SajuViewModel.swift */; };
+		8A64A900142352BE24B6BD9F /* AstrologyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7D924EBAFECF4B29A5790 /* AstrologyViewModel.swift */; };
+		A2E6C51F9590265AA4B5357F /* FortuneReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3328B8AD9882C2CAD2D323E /* FortuneReading.swift */; };
+		AA32FF8928B1A2AC978C8A8E /* ZodiacWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5873FB2B26D1E3A4E9562 /* ZodiacWheelView.swift */; };
+		B76E68B154E9472348ED371A /* TarotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40104D07E34D325A72D21EE3 /* TarotCard.swift */; };
+		C32266ADC2F41D4BEAAD6971 /* TarotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AD2FAF8538A5149A87D431 /* TarotViewModel.swift */; };
+		DBB1C2EF8C5D5CB39FFC31BD /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170A0418E12C7E26291FE772 /* PlanetView.swift */; };
+		E4EC43DD6711D16168991A99 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60E10DF08912BD6F71F9E12 /* Color+Theme.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8C455F8FF88F9F40F3B49BF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2462FC2F89B62E8A603C0F72 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9CC20F644FB6DA853FA26134;
+			remoteInfo = Fortuna;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		04B598E32123431ADFCA8C57 /* AstrologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstrologyView.swift; sourceTree = "<group>"; };
+		04BA9FF35AA85FEF52DE973A /* SajuInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SajuInputView.swift; sourceTree = "<group>"; };
+		0C677F1A480A677616E6551B /* SajuService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SajuService.swift; sourceTree = "<group>"; };
+		1559FEAE0C5C81E764984EB1 /* ShimmerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifier.swift; sourceTree = "<group>"; };
+		170A0418E12C7E26291FE772 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
+		2255F6C36B0190CE8037B8D1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		34CFA8C210AC168F41AF68C6 /* FortunaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FortunaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B86705A66E3FE67EF7FFC73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		40104D07E34D325A72D21EE3 /* TarotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
+		408923B58ED872EB2A3D35C1 /* CosmicBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CosmicBackground.swift; sourceTree = "<group>"; };
+		4B7652FFE417C5B49919EC9C /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
+		4BEF862D3C1DDCED19A87799 /* FortunaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortunaApp.swift; sourceTree = "<group>"; };
+		4EE9096D7B4FC2D62858D6F8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		56715A3A52D18BA86777186C /* SajuPillar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SajuPillar.swift; sourceTree = "<group>"; };
+		59D5873FB2B26D1E3A4E9562 /* ZodiacWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacWheelView.swift; sourceTree = "<group>"; };
+		5DCA3251C211E49011322A6B /* SajuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SajuViewModel.swift; sourceTree = "<group>"; };
+		6791D099A4380897C10BFAD1 /* StarfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarfieldView.swift; sourceTree = "<group>"; };
+		7858D7EEAFA44B4F0FF94D46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8A5103009C9C2D0BCF2A3717 /* TarotCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotCardView.swift; sourceTree = "<group>"; };
+		8A6602C24FAAA9D806C262E3 /* AstrologyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstrologyService.swift; sourceTree = "<group>"; };
+		93F7D924EBAFECF4B29A5790 /* AstrologyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstrologyViewModel.swift; sourceTree = "<group>"; };
+		9CB323EF14372D16E76D81B9 /* FortunaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortunaTests.swift; sourceTree = "<group>"; };
+		9D7C630E1AD6C3029149C3D5 /* SajuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SajuView.swift; sourceTree = "<group>"; };
+		A227091663BEB31047A4EADA /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
+		B8AD2FAF8538A5149A87D431 /* TarotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotViewModel.swift; sourceTree = "<group>"; };
+		BE1792720453BAF4115958C4 /* TarotService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotService.swift; sourceTree = "<group>"; };
+		C3328B8AD9882C2CAD2D323E /* FortuneReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortuneReading.swift; sourceTree = "<group>"; };
+		CA6585187DCFA29BB65418B1 /* TarotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotView.swift; sourceTree = "<group>"; };
+		D60E10DF08912BD6F71F9E12 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
+		DD58DA0DC22D7FE1BD85724C /* Fortuna.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Fortuna.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1A178D37E2AE93C2AE024677 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				408923B58ED872EB2A3D35C1 /* CosmicBackground.swift */,
+				4B7652FFE417C5B49919EC9C /* GlassCard.swift */,
+				170A0418E12C7E26291FE772 /* PlanetView.swift */,
+				1559FEAE0C5C81E764984EB1 /* ShimmerModifier.swift */,
+				6791D099A4380897C10BFAD1 /* StarfieldView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1BB64527862686A0966B3650 /* Saju */ = {
+			isa = PBXGroup;
+			children = (
+				04BA9FF35AA85FEF52DE973A /* SajuInputView.swift */,
+				9D7C630E1AD6C3029149C3D5 /* SajuView.swift */,
+			);
+			path = Saju;
+			sourceTree = "<group>";
+		};
+		25972CAE1AF96DC0464E81A6 /* FortunaTests */ = {
+			isa = PBXGroup;
+			children = (
+				9CB323EF14372D16E76D81B9 /* FortunaTests.swift */,
+			);
+			path = FortunaTests;
+			sourceTree = "<group>";
+		};
+		26C25E4E2FCCF8B05F58F29C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				93F7D924EBAFECF4B29A5790 /* AstrologyViewModel.swift */,
+				5DCA3251C211E49011322A6B /* SajuViewModel.swift */,
+				B8AD2FAF8538A5149A87D431 /* TarotViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2FA7229CD06B7380067AF620 /* Fortuna */ = {
+			isa = PBXGroup;
+			children = (
+				7858D7EEAFA44B4F0FF94D46 /* Assets.xcassets */,
+				4EE9096D7B4FC2D62858D6F8 /* ContentView.swift */,
+				4BEF862D3C1DDCED19A87799 /* FortunaApp.swift */,
+				3B86705A66E3FE67EF7FFC73 /* Info.plist */,
+				1A178D37E2AE93C2AE024677 /* Components */,
+				C68E4F3CE36AC23026A9BA4A /* Extensions */,
+				B4995CB6FC985926ADE86CAC /* Models */,
+				D9010004BDA70CB29BED0FE9 /* Services */,
+				26C25E4E2FCCF8B05F58F29C /* ViewModels */,
+				DAC6F5C637ED3A5460E32CD9 /* Views */,
+			);
+			path = Fortuna;
+			sourceTree = "<group>";
+		};
+		58589244B6B73442CF3D9723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD58DA0DC22D7FE1BD85724C /* Fortuna.app */,
+				34CFA8C210AC168F41AF68C6 /* FortunaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5EEC8D2587BE8B1EF46740C9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				2255F6C36B0190CE8037B8D1 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9982BEDD71456EB6EBB3FC9B /* Astrology */ = {
+			isa = PBXGroup;
+			children = (
+				04B598E32123431ADFCA8C57 /* AstrologyView.swift */,
+				59D5873FB2B26D1E3A4E9562 /* ZodiacWheelView.swift */,
+			);
+			path = Astrology;
+			sourceTree = "<group>";
+		};
+		B4995CB6FC985926ADE86CAC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C3328B8AD9882C2CAD2D323E /* FortuneReading.swift */,
+				56715A3A52D18BA86777186C /* SajuPillar.swift */,
+				40104D07E34D325A72D21EE3 /* TarotCard.swift */,
+				A227091663BEB31047A4EADA /* ZodiacSign.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C68E4F3CE36AC23026A9BA4A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D60E10DF08912BD6F71F9E12 /* Color+Theme.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D02063FA699E6F2C0ACF0E15 = {
+			isa = PBXGroup;
+			children = (
+				2FA7229CD06B7380067AF620 /* Fortuna */,
+				25972CAE1AF96DC0464E81A6 /* FortunaTests */,
+				58589244B6B73442CF3D9723 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D9010004BDA70CB29BED0FE9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8A6602C24FAAA9D806C262E3 /* AstrologyService.swift */,
+				0C677F1A480A677616E6551B /* SajuService.swift */,
+				BE1792720453BAF4115958C4 /* TarotService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DAC6F5C637ED3A5460E32CD9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9982BEDD71456EB6EBB3FC9B /* Astrology */,
+				5EEC8D2587BE8B1EF46740C9 /* Home */,
+				1BB64527862686A0966B3650 /* Saju */,
+				F7CFA14DCB943319F4D0B221 /* Tarot */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F7CFA14DCB943319F4D0B221 /* Tarot */ = {
+			isa = PBXGroup;
+			children = (
+				8A5103009C9C2D0BCF2A3717 /* TarotCardView.swift */,
+				CA6585187DCFA29BB65418B1 /* TarotView.swift */,
+			);
+			path = Tarot;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9CC20F644FB6DA853FA26134 /* Fortuna */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 390738417AB8139B1C5E814D /* Build configuration list for PBXNativeTarget "Fortuna" */;
+			buildPhases = (
+				64BA9CF61D9FFE211C8EEE4A /* Sources */,
+				1B398E23A5000DFD96F65CD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fortuna;
+			packageProductDependencies = (
+			);
+			productName = Fortuna;
+			productReference = DD58DA0DC22D7FE1BD85724C /* Fortuna.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B5C549BE3B3D0E421DBEEF9B /* FortunaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 207F4483D1718E735567941E /* Build configuration list for PBXNativeTarget "FortunaTests" */;
+			buildPhases = (
+				5A770C2FB7B296AB27FD1240 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DAC39A7B745F47F67EE865A /* PBXTargetDependency */,
+			);
+			name = FortunaTests;
+			packageProductDependencies = (
+			);
+			productName = FortunaTests;
+			productReference = 34CFA8C210AC168F41AF68C6 /* FortunaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2462FC2F89B62E8A603C0F72 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					9CC20F644FB6DA853FA26134 = {
+						DevelopmentTeam = "";
+					};
+					B5C549BE3B3D0E421DBEEF9B = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = AFE9693AF7370EA77563961E /* Build configuration list for PBXProject "Fortuna" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D02063FA699E6F2C0ACF0E15;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 58589244B6B73442CF3D9723 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9CC20F644FB6DA853FA26134 /* Fortuna */,
+				B5C549BE3B3D0E421DBEEF9B /* FortunaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1B398E23A5000DFD96F65CD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2784AF3EFDF56E563ED7085D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A770C2FB7B296AB27FD1240 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				422FA7A43BB886F7334ECA08 /* FortunaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64BA9CF61D9FFE211C8EEE4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6332F027CAB4569116015A36 /* AstrologyService.swift in Sources */,
+				7D7094CA409615C40464B121 /* AstrologyView.swift in Sources */,
+				8A64A900142352BE24B6BD9F /* AstrologyViewModel.swift in Sources */,
+				E4EC43DD6711D16168991A99 /* Color+Theme.swift in Sources */,
+				6E4E951A17F1B327AEBD2B68 /* ContentView.swift in Sources */,
+				60173F204F967BCCE745C9A1 /* CosmicBackground.swift in Sources */,
+				25D4851BF7F9360E1C72D2F6 /* FortunaApp.swift in Sources */,
+				A2E6C51F9590265AA4B5357F /* FortuneReading.swift in Sources */,
+				3A920E9813EB78C6001E87F7 /* GlassCard.swift in Sources */,
+				79C5E2800BF7D5D0873A72D6 /* HomeView.swift in Sources */,
+				DBB1C2EF8C5D5CB39FFC31BD /* PlanetView.swift in Sources */,
+				1EF2F9AEEE183DDA45476F41 /* SajuInputView.swift in Sources */,
+				1796A080497E3BAC62031D79 /* SajuPillar.swift in Sources */,
+				52CFAA8A62F3578A4923845D /* SajuService.swift in Sources */,
+				74E6815B674B08DF8A58AD9C /* SajuView.swift in Sources */,
+				7FC84AF1CB16B4475B31E201 /* SajuViewModel.swift in Sources */,
+				20AA3966890BB5803B55DE14 /* ShimmerModifier.swift in Sources */,
+				23231FE880C809A2D133F76A /* StarfieldView.swift in Sources */,
+				B76E68B154E9472348ED371A /* TarotCard.swift in Sources */,
+				291C03FB0FCA174B32EC9C57 /* TarotCardView.swift in Sources */,
+				3ED000D761BC2144B5DE6260 /* TarotService.swift in Sources */,
+				03DA6C2B8E7712D6CC75728E /* TarotView.swift in Sources */,
+				C32266ADC2F41D4BEAAD6971 /* TarotViewModel.swift in Sources */,
+				4CDE411EDFA90AF6D12249EA /* ZodiacSign.swift in Sources */,
+				AA32FF8928B1A2AC978C8A8E /* ZodiacWheelView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7DAC39A7B745F47F67EE865A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9CC20F644FB6DA853FA26134 /* Fortuna */;
+			targetProxy = 8C455F8FF88F9F40F3B49BF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3160AFBAC8B7B8E371D434CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joaodriessen.FortunaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fortuna.app/Fortuna";
+			};
+			name = Release;
+		};
+		3526855A80FE9D11FA1B6FF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joaodriessen.FortunaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fortuna.app/Fortuna";
+			};
+			name = Debug;
+		};
+		553779D152634C4B169264AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		80B094C43B9345EBAA5C4CD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		90F0DF02CBF667091D974C3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Fortuna/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joaodriessen.fortuna;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F35335ACD5CB49D40EE374CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Fortuna/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joaodriessen.fortuna;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		207F4483D1718E735567941E /* Build configuration list for PBXNativeTarget "FortunaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3526855A80FE9D11FA1B6FF2 /* Debug */,
+				3160AFBAC8B7B8E371D434CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		390738417AB8139B1C5E814D /* Build configuration list for PBXNativeTarget "Fortuna" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F35335ACD5CB49D40EE374CD /* Debug */,
+				90F0DF02CBF667091D974C3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AFE9693AF7370EA77563961E /* Build configuration list for PBXProject "Fortuna" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				553779D152634C4B169264AA /* Debug */,
+				80B094C43B9345EBAA5C4CD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2462FC2F89B62E8A603C0F72 /* Project object */;
+}

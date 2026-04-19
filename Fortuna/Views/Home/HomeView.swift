@@ -41,7 +41,13 @@ struct HomeView: View {
 
     private var dateString: String {
         let f = DateFormatter()
-        f.dateFormat = "EEEE, MMMM d"
+        f.dateFormat = "MMMM d"
+        return f.string(from: Date())
+    }
+
+    private var dayString: String {
+        let f = DateFormatter()
+        f.dateFormat = "EEEE"
         return f.string(from: Date())
     }
 
@@ -49,116 +55,125 @@ struct HomeView: View {
         ZStack {
             CosmicBackground()
 
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    // Date header
-                    VStack(alignment: .leading, spacing: Spacing.xs) {
-                        Text(dateString.uppercased())
-                            .font(FortunaFont.caption(11))
-                            .foregroundStyle(Color.textTertiary)
-                            .tracking(2)
 
-                        Text("Fortuna")
-                            .font(FortunaFont.display(36))
+                    // Header
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(dayString.uppercased())
+                            .font(.system(size: 12, weight: .medium))
+                            .tracking(3.0)
+                            .foregroundStyle(Color.accentGold)
+
+                        Text(dateString)
+                            .font(.system(size: 42, weight: .ultraLight))
+                            .tracking(-0.5)
                             .foregroundStyle(Color.textPrimary)
                     }
-                    .padding(.top, 64)
-                    .padding(.horizontal, Spacing.screenHorizontal)
-                    .padding(.bottom, Spacing.xl)
+                    .padding(.horizontal, 28)
+                    .padding(.top, 24)
+                    .padding(.bottom, 36)
 
-                    // Hero daily message card
-                    FortunaCard(padding: Spacing.lg) {
-                        VStack(alignment: .leading, spacing: Spacing.md) {
-                            HStack(spacing: Spacing.xs) {
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(Color.accentGold)
-                                Text("Today's Message")
-                                    .font(FortunaFont.caption(11))
-                                    .foregroundStyle(Color.accentGold)
-                                    .tracking(1.5)
-                                Spacer()
-                            }
-
-                            Text(todayMessage)
-                                .font(FortunaFont.body(15))
-                                .foregroundStyle(Color.textSecondary)
-                                .lineSpacing(6)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                    }
-                    .padding(.horizontal, Spacing.screenHorizontal)
-                    .padding(.bottom, Spacing.lg)
-
-                    // Category cards
-                    VStack(spacing: Spacing.sm) {
-                        Text("Explore")
-                            .font(FortunaFont.caption(11))
+                    // Hero daily message
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("TODAY'S READING")
+                            .font(.system(size: 11, weight: .medium))
+                            .tracking(3.0)
                             .foregroundStyle(Color.textTertiary)
-                            .tracking(2)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, Spacing.screenHorizontal)
 
+                        Text(todayMessage)
+                            .font(.system(size: 22, weight: .light))
+                            .lineSpacing(10)
+                            .foregroundStyle(Color.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(28)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fortGlass(cornerRadius: 28, tint: Color.accentPurple.opacity(0.08))
+                    .padding(.horizontal, 20)
+
+                    Spacer().frame(height: 40)
+
+                    // Section label
+                    Text("YOUR GUIDES")
+                        .font(.system(size: 11, weight: .medium))
+                        .tracking(3.0)
+                        .foregroundStyle(Color.textTertiary)
+                        .padding(.horizontal, 28)
+                        .padding(.bottom, 16)
+
+                    // Three category cards
+                    VStack(spacing: 12) {
                         HomeFeatureCard(
-                            icon: "rectangle.stack",
                             title: "Tarot",
-                            subtitle: "Daily, monthly, and yearly spreads",
+                            subtitle: "Daily card reading",
+                            symbol: "rectangle.on.rectangle.angled",
                             tint: Color.tarotTint
                         )
                         HomeFeatureCard(
-                            icon: "moon.stars",
                             title: "Astrology",
-                            subtitle: "Your natal chart and transits",
+                            subtitle: "Your star chart",
+                            symbol: "moon.stars",
                             tint: Color.astrologyTint
                         )
                         HomeFeatureCard(
-                            icon: "seal",
-                            title: "사주 · Four Pillars",
-                            subtitle: "Destiny encoded in your birth moment",
+                            title: "Saju",
+                            subtitle: "Four pillars of destiny",
+                            symbol: "square.grid.2x2",
                             tint: Color.sajuTint
                         )
                     }
-                    .padding(.bottom, 120)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 40)
                 }
             }
         }
-        .ignoresSafeArea()
     }
 }
 
 // MARK: - Feature Card
 
 struct HomeFeatureCard: View {
-    let icon: String
     let title: String
     let subtitle: String
+    let symbol: String
     let tint: Color
 
+    @State private var pressed = false
+
     var body: some View {
-        FortunaCard(padding: Spacing.md, tint: tint) {
-            HStack(spacing: Spacing.md) {
-                Image(systemName: icon)
-                    .font(.system(size: 20, weight: .light))
-                    .foregroundStyle(tint)
-                    .frame(width: 36)
+        HStack(spacing: 20) {
+            // Icon
+            Image(systemName: symbol)
+                .font(.system(size: 26, weight: .light))
+                .foregroundStyle(tint)
+                .frame(width: 52, height: 52)
+                .fortGlass(cornerRadius: 16, tint: tint.opacity(0.15))
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(FortunaFont.displayMedium(15))
-                        .foregroundStyle(Color.textPrimary)
-                    Text(subtitle)
-                        .font(FortunaFont.caption(12))
-                        .foregroundStyle(Color.textSecondary)
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .light))
-                    .foregroundStyle(Color.textTertiary)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(Color.textPrimary)
+                Text(subtitle)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundStyle(Color.textSecondary)
             }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .light))
+                .foregroundStyle(Color.textTertiary)
         }
-        .padding(.horizontal, Spacing.screenHorizontal)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 18)
+        .fortGlass(cornerRadius: 20, tint: tint.opacity(0.05))
+        .scaleEffect(pressed ? 0.97 : 1.0)
+        .animation(.spring(response: 0.2, dampingFraction: 0.8), value: pressed)
+        .simultaneousGesture(DragGesture(minimumDistance: 0)
+            .onChanged { _ in pressed = true }
+            .onEnded { _ in pressed = false }
+        )
     }
 }
 

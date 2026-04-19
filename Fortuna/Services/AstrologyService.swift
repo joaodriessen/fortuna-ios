@@ -1,6 +1,6 @@
 import Foundation
 
-class AstrologyService {
+class AstrologyService: @unchecked Sendable {
     static let shared = AstrologyService()
     private init() {}
 

@@ -1,6 +1,6 @@
 import Foundation
 
-class SajuService {
+class SajuService: @unchecked Sendable {
     static let shared = SajuService()
     private init() {}
 

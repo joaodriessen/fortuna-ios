@@ -23,7 +23,7 @@ struct SeededRandom {
 
 // MARK: - TarotService
 
-class TarotService {
+class TarotService: @unchecked Sendable {
     static let shared = TarotService()
 
     let allCards: [TarotCard] = TarotCard.deck

@@ -28,6 +28,16 @@ extension Color {
     static let cardBorder      = Color(hex: "FFFFFF").opacity(0.05)
 }
 
+// MARK: - Glass Tint Helpers
+
+extension Color {
+    static let glassNeutral   = Color.white.opacity(0.0)
+    static let glassTarot     = Color.tarotTint.opacity(0.15)
+    static let glassAstrology = Color.astrologyTint.opacity(0.12)
+    static let glassSaju      = Color.sajuTint.opacity(0.12)
+    static let glassGold      = Color.accentGold.opacity(0.10)
+}
+
 // MARK: - Hex Initialiser
 
 extension Color {
@@ -73,4 +83,53 @@ enum Spacing {
     static let xl: CGFloat = 32
     static let xxl: CGFloat = 48
     static let screenHorizontal: CGFloat = 24
+}
+
+// MARK: - iOS 26 Glass Modifier
+
+struct FortunaGlassModifier: ViewModifier {
+    var shape: AnyShape = AnyShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+    var tint: Color = .clear
+
+    func body(content: Content) -> some View {
+        content
+            .background {
+                ZStack {
+                    shape.fill(.ultraThinMaterial)
+                    if tint != .clear {
+                        shape.fill(tint)
+                    }
+                    shape.stroke(Color.white.opacity(0.12), lineWidth: 0.5)
+                }
+                .shadow(color: .black.opacity(0.25), radius: 20, x: 0, y: 8)
+            }
+    }
+}
+
+extension View {
+    func fortGlass(
+        cornerRadius: CGFloat = 24,
+        tint: Color = .clear
+    ) -> some View {
+        self.modifier(FortunaGlassModifier(
+            shape: AnyShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)),
+            tint: tint
+        ))
+    }
+
+    func fortGlassCapsule(tint: Color = .clear) -> some View {
+        self.modifier(FortunaGlassModifier(shape: AnyShape(Capsule()), tint: tint))
+    }
+}
+
+// MARK: - FortunePeriod Label
+
+extension FortunePeriod {
+    var label: String {
+        switch self {
+        case .daily:   return "Daily"
+        case .monthly: return "Monthly"
+        case .yearly:  return "Yearly"
+        }
+    }
 }

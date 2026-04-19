@@ -5,27 +5,35 @@ import SwiftUI
 struct CosmicBackground: View {
     var body: some View {
         ZStack {
-            Color.appBackground.ignoresSafeArea()
+            // Slightly richer base for glass to float on
+            Color(hex: "080818").ignoresSafeArea()
 
-            // Extremely subtle gradient blooms
             GeometryReader { geo in
                 ZStack {
+                    // Purple bloom — top left
                     Circle()
-                        .fill(Color.accentPurple.opacity(0.10))
-                        .frame(width: geo.size.width * 0.8)
-                        .blur(radius: 120)
-                        .offset(x: -geo.size.width * 0.2, y: -geo.size.height * 0.1)
-
-                    Circle()
-                        .fill(Color.accentBlue.opacity(0.08))
-                        .frame(width: geo.size.width * 0.7)
+                        .fill(Color(hex: "3D1B6E").opacity(0.35))
+                        .frame(width: geo.size.width)
                         .blur(radius: 100)
-                        .offset(x: geo.size.width * 0.3, y: geo.size.height * 0.4)
+                        .offset(x: -geo.size.width * 0.35, y: -geo.size.height * 0.15)
+
+                    // Blue bloom — bottom right
+                    Circle()
+                        .fill(Color(hex: "0F3060").opacity(0.30))
+                        .frame(width: geo.size.width * 0.85)
+                        .blur(radius: 90)
+                        .offset(x: geo.size.width * 0.3, y: geo.size.height * 0.35)
+
+                    // Gold hint — very subtle, mid screen
+                    Circle()
+                        .fill(Color(hex: "4A3010").opacity(0.15))
+                        .frame(width: geo.size.width * 0.5)
+                        .blur(radius: 80)
+                        .offset(x: geo.size.width * 0.05, y: geo.size.height * 0.1)
                 }
             }
             .ignoresSafeArea()
 
-            // Sparse, quiet starfield
             MinimalStarfield()
         }
     }
@@ -33,49 +41,42 @@ struct CosmicBackground: View {
 
 // MARK: - Minimal Starfield
 
-private struct StarData {
-    let x: CGFloat
-    let y: CGFloat
-    let size: CGFloat
-    let phaseOffset: Double
-    let period: Double
-}
-
 struct MinimalStarfield: View {
-    // Use a fixed seed so positions are deterministic
-    private let stars: [StarData] = {
-        var rng = SeededStarRNG(seed: 42)
-        return (0..<80).map { _ in
-            let large = rng.nextFloat() > 0.80
-            return StarData(
-                x: rng.nextFloat(),
-                y: rng.nextFloat(),
-                size: large ? rng.nextFloatIn(min: 1.0, max: 1.5) : rng.nextFloatIn(min: 0.5, max: 1.0),
-                phaseOffset: Double(rng.nextFloat()) * .pi * 2,
-                period: Double(rng.nextFloatIn(min: 3.0, max: 8.0))
+    struct Star {
+        let x: CGFloat
+        let y: CGFloat
+        let size: CGFloat
+        let period: Double
+        let phase: Double
+    }
+
+    let stars: [Star] = {
+        var rng = SeededRNG(seed: 42)
+        return (0..<90).map { _ in
+            Star(
+                x: CGFloat(rng.next01()),
+                y: CGFloat(rng.next01()),
+                size: CGFloat(rng.next01()) * 1.2 + 0.4,
+                period: Double(rng.next01()) * 5 + 3,
+                phase: Double(rng.next01()) * .pi * 2
             )
         }
     }()
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1.0 / 30.0)) { timeline in
-            Canvas { context, size in
-                let time = timeline.date.timeIntervalSinceReferenceDate
+        TimelineView(.animation) { ctx in
+            Canvas { cx, size in
+                let t = ctx.date.timeIntervalSinceReferenceDate
                 for star in stars {
-                    let opacity = (sin(time / star.period * .pi * 2 + star.phaseOffset) + 1) / 2
-                    let baseOpacity = 0.2 + opacity * 0.3
-                    let x = star.x * size.width
-                    let y = star.y * size.height
+                    let twinkle = (sin(t / star.period + star.phase) + 1) / 2
+                    let opacity = 0.15 + twinkle * 0.35
+                    cx.opacity = opacity
                     let rect = CGRect(
-                        x: x - star.size / 2,
-                        y: y - star.size / 2,
-                        width: star.size,
-                        height: star.size
+                        x: star.x * size.width - star.size / 2,
+                        y: star.y * size.height - star.size / 2,
+                        width: star.size, height: star.size
                     )
-                    context.fill(
-                        Path(ellipseIn: rect),
-                        with: .color(Color.textPrimary.opacity(baseOpacity))
-                    )
+                    cx.fill(Circle().path(in: rect), with: .color(.white))
                 }
             }
         }
@@ -84,27 +85,17 @@ struct MinimalStarfield: View {
     }
 }
 
-// MARK: - Seeded RNG for star positions
+// MARK: - Seeded RNG
 
-private struct SeededStarRNG {
+struct SeededRNG {
     private var state: UInt64
-
-    init(seed: UInt64) {
-        state = seed &* 6364136223846793005 &+ 1442695040888963407
-        if state == 0 { state = 1 }
-    }
-
+    init(seed: UInt64) { state = seed }
     mutating func next() -> UInt64 {
         state = state &* 6364136223846793005 &+ 1442695040888963407
         return state
     }
-
-    mutating func nextFloat() -> CGFloat {
-        CGFloat(next() >> 11) / CGFloat(1 << 53)
-    }
-
-    mutating func nextFloatIn(min: CGFloat, max: CGFloat) -> CGFloat {
-        min + nextFloat() * (max - min)
+    mutating func next01() -> Double {
+        return Double(next() >> 11) / Double(1 << 53)
     }
 }
 

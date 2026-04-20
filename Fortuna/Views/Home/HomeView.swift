@@ -92,39 +92,6 @@ struct HomeView: View {
                     .fortGlass(cornerRadius: 28, tint: Color.accentPurple.opacity(0.08))
                     .padding(.horizontal, 20)
 
-                    Spacer().frame(height: 40)
-
-                    // Section label
-                    Text("YOUR GUIDES")
-                        .font(.system(size: 11, weight: .medium))
-                        .tracking(3.0)
-                        .foregroundStyle(Color.textTertiary)
-                        .padding(.horizontal, 28)
-                        .padding(.bottom, 16)
-
-                    // Three category cards
-                    VStack(spacing: 12) {
-                        HomeFeatureCard(
-                            title: "Tarot",
-                            subtitle: "Daily card reading",
-                            symbol: "rectangle.on.rectangle.angled",
-                            tint: Color.tarotTint
-                        )
-                        HomeFeatureCard(
-                            title: "Astrology",
-                            subtitle: "Your star chart",
-                            symbol: "moon.stars",
-                            tint: Color.astrologyTint
-                        )
-                        HomeFeatureCard(
-                            title: "Saju",
-                            subtitle: "Four pillars of destiny",
-                            symbol: "square.grid.2x2",
-                            tint: Color.sajuTint
-                        )
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 40)
                 }
             }
         }

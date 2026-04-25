@@ -37,18 +37,20 @@ Korean Four Pillars of Destiny based on traditional Chinese metaphysics. Enter y
 
 ## Tech Stack
 
-- **SwiftUI** — declarative UI with smooth animations
-- **MVVM** architecture
-- **XcodeGen** — project file generation
-- **iOS 17.0+**
-- **Swift 5.9+**
-- No external dependencies
+| | |
+|---|---|
+| **SwiftUI** | Declarative UI with smooth animations |
+| **Swift 6.0** | Strict concurrency |
+| **iOS 26.0+** | Deployment target |
+| **MVVM** | Architecture |
+| **XcodeGen** | Project file generation |
+| **No external dependencies** | |
 
 ## Building
 
 1. Install XcodeGen: `brew install xcodegen`
-2. Generate the project: `cd ~/Projects/Fortuna && xcodegen generate`
-3. Open `Fortuna.xcodeproj` in Xcode
+2. Generate the project: `xcodegen generate` (from the repo root)
+3. Open `Fortuna.xcodeproj` in Xcode 26+
 4. Select a simulator and hit Run
 
 ## Running Tests
@@ -57,6 +59,6 @@ Korean Four Pillars of Destiny based on traditional Chinese metaphysics. Enter y
 xcodebuild test -project Fortuna.xcodeproj -scheme Fortuna -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
----
+## License
 
-*"The stars have been studying you since the moment you arrived."*
+Unlicensed — personal project, all rights reserved.
